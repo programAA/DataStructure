@@ -17,8 +17,8 @@ void ReAssign(List L) {
 	ElemType *newbase = (ElemType *)realloc(L->elem, (L->maxsize + LIST_INCREASE) * sizeof(ElemType));
 	if (newbase == NULL)
 	{
-		printf("空间不足，增加分配失败");
-		exit(1);
+		printf("空间不足，增加分配失败\n");
+		exit(1);//执行此函数终止程序运行
 	}
 	L->elem = newbase;
 	L->maxsize += LIST_INCREASE;

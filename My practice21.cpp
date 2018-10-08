@@ -6,7 +6,6 @@ using namespace std;
 
 int main() {
 	List L = InitList();
-	DestroyList(L);
-	cout << L<< endl;
+	Insert(L, 1, 1);
 	return 0;
 }
