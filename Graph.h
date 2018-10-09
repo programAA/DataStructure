@@ -4,27 +4,28 @@
 #include "Queue.h"
 #define MaxVertexNum 100
 using namespace std;
+
+
 typedef int WeightType;
 typedef int Vertex;
 typedef int DataType;
+
+
 //边的定义
-typedef struct ENode *PtrToENode;
+typedef struct ENode *Edge;
 struct ENode {
 	Vertex V1, V2;
 	WeightType Weight;
 };
-typedef PtrToENode Edge;
-
 
 //邻接矩阵表示的图
-typedef struct MGNode *PreToMGNode;
+typedef struct MGNode *MGraph;
 struct MGNode {
 	int Nv;//顶点数
 	int Ne;//边数
-	DataType Data[MaxVertexNum];
+	DataType Data[MaxVertexNum];//顶点数据
 	WeightType G[MaxVertexNum][MaxVertexNum];
 };
-typedef PreToMGNode MGraph;
 
 
 //邻接表表示的图
@@ -32,23 +33,21 @@ typedef PreToMGNode MGraph;
 typedef struct AdjVNode *PtrToAdjVNode;
 struct AdjVNode {
 	Vertex AdjV;//顶点下标
-	WeightType Weight;
-	PtrToAdjVNode Next;
+	WeightType Weight;//头结点到此顶点的边权重
+	PtrToAdjVNode Next;//指向下一顶点
 };
 //顶点表头节点
 typedef struct VNode {
-	DataType Data;
+	DataType Data;//头结点存放顶点数据
 	PtrToAdjVNode FirstEdge;
 }AdjList[MaxVertexNum];
 //图节点
-typedef struct LGNode *PtrToLGNode;
+typedef struct LGNode *LGraph;
 struct LGNode {
 	int Nv;
 	int Ne;
 	AdjList G;
 };
-typedef PtrToLGNode LGraph;
-
 
 //初始化一个有VertexNum个节点没有边的邻接矩阵表示的图
 MGraph CreateMGraph(int VertexNum)
@@ -62,30 +61,30 @@ MGraph CreateMGraph(int VertexNum)
 			Graph->G[v][w] = INFINITY;
 	return Graph;
 }
+
 //插入边
 void InsertEdge(MGraph Graph, Edge E)
 {
 	Graph->G[E->V1][E->V2] = E->Weight;
 	Graph->G[E->V2][E->V1] = E->Weight;
 }
+
 //建立图
 MGraph BuildMGraph() {
-	Vertex V;
 	Edge E;
-	int Nv, i;
-	MGraph Graph;
+	int Nv;//顶点数
 	cout << "请输入顶点个数:";
 	cin >> Nv;
-	Graph = CreateMGraph(Nv);
+	MGraph Graph = CreateMGraph(Nv);
 	cout << "请输入边数:";
 	cin >> Graph->Ne;
-	for (i = 1; i <= Graph->Ne; ++i) {
+	for (int i = 1; i <= Graph->Ne; i++) {
 		E = (Edge)malloc(sizeof(struct ENode));
-		cout<<"请输入边连接的两个顶点和权重:";
+		cout << "请输入边连接的两个顶点和权重:";
 		cin >> E->V1 >> E->V2 >> E->Weight;
 		InsertEdge(Graph, E);
 	}
-	for (V = 0; V < Graph->Nv; ++V) {
+	for (Vertex V = 0; V < Graph->Nv; ++V) {
 		cout << "请输入顶点数据:";
 		cin >> Graph->Data[V];
 	}
@@ -96,11 +95,10 @@ MGraph BuildMGraph() {
 //初始化一个有VertexNum个节点没有边的邻接表表示的图
 LGraph CreateLGraph(int VertexNum)
 {
-	Vertex V;
 	LGraph Graph = (LGraph)malloc(sizeof(struct LGNode));
 	Graph->Nv = VertexNum;
 	Graph->Ne = 0;
-	for (V = 0; V < Graph->Nv; V++)
+	for (Vertex V = 0; V < Graph->Nv; V++)
 		Graph->G[V].FirstEdge = NULL;
 	return Graph;
 }
@@ -109,49 +107,47 @@ LGraph CreateLGraph(int VertexNum)
 //插入边
 void InsertEdge(LGraph Graph, Edge E)
 {
-	PtrToAdjVNode NewNode;
-	NewNode = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
-	NewNode->AdjV = E->V2;
-	NewNode->Weight = E->Weight;
-	NewNode->Next = Graph->G[E->V1].FirstEdge;
-	Graph->G[E->V1].FirstEdge = NewNode;
-	//NewNode = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
-	//NewNode->AdjV = E->V1;
-	//NewNode->Weight = E->Weight;
-	//NewNode->Next = Graph->G[E->V2].FirstEdge;
-	//Graph->G[E->V2].FirstEdge = NewNode;
+	PtrToAdjVNode NewNode1 = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
+	NewNode1->AdjV = E->V2;
+	NewNode1->Weight = E->Weight;
+	NewNode1->Next = Graph->G[E->V1].FirstEdge;
+	Graph->G[E->V1].FirstEdge = NewNode1;
+	//PtrToAdjVNode NewNode2 = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
+	//NewNode2->AdjV = E->V1;
+	//NewNode2->Weight = E->Weight;
+	//NewNode2->Next = Graph->G[E->V2].FirstEdge;
+	//Graph->G[E->V2].FirstEdge = NewNode2;
 }
 //建立图
 LGraph BuildLGraph() {
-	Vertex V;
+	int Nv;//顶点个数
 	Edge E;
-	int Nv, i;
-	LGraph Graph;
 	cout<<"请输入顶点个数:";
 	cin >> Nv;
-	Graph = CreateLGraph(Nv);
+	LGraph Graph = CreateLGraph(Nv);
 	cout<<"请输入边数:";
 	cin>>Graph->Ne;
-	for (i = 1; i <= Graph->Ne; ++i) {
+	for (int i = 1; i <= Graph->Ne; i++) {
 		E = (Edge)malloc(sizeof(struct ENode));
 		cout<<"请输入边连接的两个顶点和权重:";
 		cin >> E->V1 >> E->V2 >> E->Weight;
 		InsertEdge(Graph, E);
 	}
-	for (V = 0; V < Graph->Nv; ++V) {
+	for (Vertex V = 0; V < Graph->Nv; ++V) {
 		cout << "请输入顶点数据:";
-		cin>>Graph->G[V].Data;
+		cin >> Graph->G[V].Data;
 	}
 	return Graph;
 }
 
 //遍历图
 //深度优先遍历
+//全局变量，访问过的顶点，下标处为1，未访问的为0
 int Visited[MaxVertexNum];
 void visit(Vertex V) {
 	cout << "正在访问顶点:" << V << endl;
 }
-void DFS(LGraph Graph, Vertex V) {
+void DFS(LGraph Graph, Vertex V, void(*visit)(Vertex)) {
 	//深度优先，V为出发点
 	PtrToAdjVNode W;
 	visit(V);
@@ -159,7 +155,7 @@ void DFS(LGraph Graph, Vertex V) {
 	for (W = Graph->G[V].FirstEdge; W; W = W->Next) {
 		//对V的每个邻接点W->AdjV
 		if (!Visited[W->AdjV])//若未被访问,递归访问之
-			DFS(Graph, W->AdjV);
+			DFS(Graph, W->AdjV, visit);
 	}
 }
 void DFStraversal(LGraph Graph)
@@ -169,32 +165,61 @@ void DFStraversal(LGraph Graph)
 		Visited[V] = false;
 	for (V = 0; V < Graph->Nv; ++V) {
 		if (!Visited[V])
-			DFS(Graph, V);
+			DFS(Graph, V, visit);
 	}
 }
-//广度优先遍历
+//广度优先遍历(邻接表)
 void BFStraversal(LGraph Graph) {
 	Vertex V, W;
 	PtrToAdjVNode X;
 	Queue Q = InitQueue();
 	for (V = 0; V < Graph->Nv; ++V)//图中所有顶点设为未访问
 		Visited[V] = false;
-	for (V = 0; V < Graph->Nv; V++)//遍历图中所有顶点，保证非连通图也可遍历所有顶点
+	for (V = 0; V < Graph->Nv; V++) {//遍历图中所有顶点，保证非连通图也可遍历所有顶点
 		if (!Visited[V]) {
 			Visited[V] = true;//顶点未访问过，设为已访问，并访问
 			visit(V);
 			EnQueue(Q, V);
-			while (!IsEmpty(Q)) {
+			while (!IsEmpty(Q)) {//队列不空时进行循环
 				W = DeQueue(Q);
-				for(X=Graph->G[W].FirstEdge;X;X=X->Next)//对此顶点的所有邻接点，遍历访问
+				for (X = Graph->G[W].FirstEdge; X; X = X->Next) {//对此顶点的所有邻接点，遍历访问
 					if (!Visited[X->AdjV]) {
 						Visited[X->AdjV] = true;
 						visit(X->AdjV);
 						EnQueue(Q, X->AdjV);
 					}
+				}
 			}
 		}
+	}
 }
+//广度优先搜索(邻接矩阵)
+//IsEdge判断V->W边是否是图中的边
+bool IsEdge(MGraph Graph, Vertex V, Vertex W) {
+	return Graph->G[V][W] < INFINITY ? false : true;
+}
+void BFS(MGraph Graph, Vertex S, void(*visit)(Vertex)) {
+	//以S为出发点对邻接矩阵表示的图进行BFS搜索
+	Queue Q = InitQueue();
+	Vertex V, W;
+	for (V = 0; V < Graph->Nv; ++V)//图中所有顶点设为未访问
+		Visited[V] = false;
+	Visited[S] = true;
+	visit(S);
+	EnQueue(Q, S);
+	while (!IsEmpty(Q)) {
+		V = DeQueue(Q);
+		for (W = 0; W < Graph->Nv; W++) {//若W是V的邻接点且未访问过，则访问之
+			if (!Visited[W] && IsEdge(Graph, V, W)) {
+				Visited[W] = true;
+				visit(W);
+				EnQueue(Q, W);
+			}
+		}
+	}
+}
+
+
 
 //无权图的单源最短路算法
 void Unweighted(LGraph Graph,int dist[],int path[],Vertex S) {
