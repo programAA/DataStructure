@@ -317,17 +317,17 @@ Vertex FindMinDist(MGraph Graph, WeightType dist[]) {
 	if (MinDist < INFINITY) return MinV;
 	else return -1;
 }
-int Prim(MGraph Graph, MGraph MST) {
+int Prim(MGraph Graph, LGraph MST) {
 	//将最小生成树保存为邻接表存储的图MST，返回最小权重和
 	WeightType dist[MaxVertexNum], TotalWeight = 0;
 	Vertex parent[MaxVertexNum], V, W;
 	int Vcount = 0;
+	MST = CreateLGraph(Graph->Nv);//MST为有Nv个节点没有边的图
 	Edge E=(Edge)malloc(sizeof(struct ENode));
 	for (V = 0; V < Graph->Nv; ++V) {
 		dist[V] = Graph->G[0][V];//dist数组储存该顶点到生成树的最短距离，初始生成树为顶点0
 		parent[V] = 0;//暂定所有顶点的父节点都是初始点0
 	}
-	MST = CreateMGraph(Graph->Nv);//MST为有Nv个节点没有边的图
 	dist[0] = 0;//处理第一个顶点
 	Vcount++;
 	parent[0] = -1;
@@ -342,7 +342,7 @@ int Prim(MGraph Graph, MGraph MST) {
 		dist[V] = 0;//顶点V收录到生成树中
 		Vcount++;//收录顶点数加一
 		//for循环用于更新顶点到生成树的最短距离和顶点的父节点
-		for (W = 0; W < Graph->Nv; ++V) {
+		for (W = 0; W < Graph->Nv; ++W) {
 			if (dist[W] != 0 && Graph->G[V][W] < INFINITY)//若顶点未收录且是V的邻接点
 				if (Graph->G[V][W] < dist[W]) {
 					dist[W] = Graph->G[V][W];//更新生成树到此节点的最小距离
@@ -358,12 +358,11 @@ int Prim(MGraph Graph, MGraph MST) {
 
 //拓扑排序
 bool TopSort(LGraph Graph, Vertex TopOrder[]) {
-	int Indegree[MaxVertexNum], cnt;
+	int Indegree[MaxVertexNum] = { 0 };//每个顶点的入度初始化为0
+	int cnt = 0;
 	Vertex V;
 	PtrToAdjVNode W;
 	Queue Q = InitQueue();
-	for (V = 0; V < Graph->Nv; V++)
-		Indegree[V] = 0;//初始化每个顶点的入度为0
 	for (V = 0; V < Graph->Nv; ++V)
 		for (W = Graph->G[V].FirstEdge; W; W = W->Next)
 			Indegree[W->AdjV]++;//累计每个顶点的入度
@@ -372,12 +371,12 @@ bool TopSort(LGraph Graph, Vertex TopOrder[]) {
 			EnQueue(Q, V);//把入度为0的顶点入队
 	while (!IsEmpty(Q)) {
 		V = DeQueue(Q);
-		TopOrder[cnt++] = V;//累计出列的顶点个数
+		TopOrder[cnt++] = V;//保存拓扑序并累计出列的顶点个数
 		for (W = Graph->G[V].FirstEdge; W; W = W->Next)
 			if (--Indegree[W->AdjV] == 0)//顶点的入度为0时，入队
 				EnQueue(Q, W->AdjV);
 	}
-	if (cnt != Graph->Nv)
+	if (cnt != Graph->Nv)//有闭环
 		return false;
 	else return true;
 }

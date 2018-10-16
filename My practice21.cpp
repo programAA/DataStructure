@@ -24,7 +24,7 @@ bool check(int num) {
 }
 
 void dfs(int num) {
-	if (num > 8) {
+	if (num > 8) {//数组赋值完成，判断是否符合条件
 		if (judge(a)) {
 			Count++;
 		}
@@ -33,7 +33,7 @@ void dfs(int num) {
 	//下面的for循环控制九个数字全排列
 	for (int i = 1; i < 10; i++) {
 		a[num] = i;
-		if (check(num)) {
+		if (check(num)) {//如果没有重复，继续赋值下一个
 			dfs(num + 1);
 		}
 	}
