@@ -114,6 +114,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Array.h" />
     <ClInclude Include="CArray.h" />
     <ClInclude Include="Class_List.h" />
     <ClInclude Include="Function.h" />
@@ -128,8 +129,7 @@
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Homework.cpp" />
-    <ClCompile Include="My practice22.cpp" />
+    <ClCompile Include="My practice23.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

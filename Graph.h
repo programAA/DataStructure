@@ -112,11 +112,11 @@ void InsertEdge(LGraph Graph, Edge E)
 	NewNode1->Weight = E->Weight;
 	NewNode1->Next = Graph->G[E->V1].FirstEdge;
 	Graph->G[E->V1].FirstEdge = NewNode1;
-	//PtrToAdjVNode NewNode2 = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
-	//NewNode2->AdjV = E->V1;
-	//NewNode2->Weight = E->Weight;
-	//NewNode2->Next = Graph->G[E->V2].FirstEdge;
-	//Graph->G[E->V2].FirstEdge = NewNode2;
+	PtrToAdjVNode NewNode2 = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
+	NewNode2->AdjV = E->V1;
+	NewNode2->Weight = E->Weight;
+	NewNode2->Next = Graph->G[E->V2].FirstEdge;
+	Graph->G[E->V2].FirstEdge = NewNode2;
 }
 //建立图
 LGraph BuildLGraph() {
@@ -195,9 +195,6 @@ void BFStraversal(LGraph Graph) {
 }
 //广度优先搜索(邻接矩阵)
 //IsEdge判断V->W边是否是图中的边
-bool IsEdge(MGraph Graph, Vertex V, Vertex W) {
-	return Graph->G[V][W] < INFINITY ? false : true;
-}
 void BFS(MGraph Graph, Vertex S, void(*visit)(Vertex)) {
 	//以S为出发点对邻接矩阵表示的图进行BFS搜索
 	Queue Q = InitQueue();
@@ -210,7 +207,7 @@ void BFS(MGraph Graph, Vertex S, void(*visit)(Vertex)) {
 	while (!IsEmpty(Q)) {
 		V = DeQueue(Q);
 		for (W = 0; W < Graph->Nv; W++) {//若W是V的邻接点且未访问过，则访问之
-			if (!Visited[W] && IsEdge(Graph, V, W)) {
+			if (Graph->G[V][W] < INFINITY && !Visited[W]) {
 				Visited[W] = true;
 				visit(W);
 				EnQueue(Q, W);
@@ -218,7 +215,6 @@ void BFS(MGraph Graph, Vertex S, void(*visit)(Vertex)) {
 		}
 	}
 }
-
 
 
 //无权图的单源最短路算法
@@ -318,6 +314,7 @@ Vertex FindMinDist(MGraph Graph, WeightType dist[]) {
 	else return -1;
 }
 int Prim(MGraph Graph, LGraph MST) {
+	//小树慢慢长大
 	//将最小生成树保存为邻接表存储的图MST，返回最小权重和
 	WeightType dist[MaxVertexNum], TotalWeight = 0;
 	Vertex parent[MaxVertexNum], V, W;

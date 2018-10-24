@@ -1,76 +1,80 @@
 #include <iostream>
-#include "Graph.h"
+#include <iomanip>
+#define MaxVertexNum 10000
 using namespace std;
-//  要求程序首先输入一个整数N(N < 100)表示后面数据行数。
-//	接着读入N行数据。
-//	每行数据长度不等，是用空格分开的若干个（不大于100个）正整数（不大于100000）
-//	每个整数代表一个ID号。
-//	要求程序输出1行，含两个整数m n，用空格分隔。
-//	其中，m表示断号ID，n表示重号ID
 
-//int main() {
-//	int N[10] = { 0 };
-//	for (int i = 0; i <10; i++) {
-//		cout << N[i] << endl;
-//	}
-//	return 0;
-//}
+//其实就是求树的直径，第一遍dfs任选一点u，求出距离它最远的点v，
+//第二遍dfs从点v出发，求出距离它最远的点w，那么这棵树的直径就是v到w，也就是其中的最长路径。
 
-//最小生成树Prim算法
-//小树慢慢长大
-Vertex FindMin(MGraph Graph,int dist[]) {
-	Vertex MinV, V;
-	int MinDist = INFINITY;
-	for (V = 0; V < Graph->Nv; V++)
-		if (dist[V] < MinDist&&dist[V] != 0) {
-			MinDist = dist[V];
-			MinV = V;
+typedef struct AdjVNode{
+	int AdjV;
+	int Weight;
+	struct AdjVNode *Next;
+}*PtrToAdjVNode;
+
+typedef struct node {
+	PtrToAdjVNode FirstEdge;
+}AdjList[MaxVertexNum];
+
+struct GNode {
+	int Nv, Ne;
+	AdjList G;
+};
+typedef struct GNode *LGraph;
+
+struct ENode {
+	int V1, V2;
+	int Weight;
+};
+typedef struct ENode *Edge;
+
+int Visited[MaxVertexNum] = { 0 };
+int max = -1;
+int P;
+void DFS(LGraph Graph, int S, int Sum) {
+	PtrToAdjVNode W;
+	if (Sum > max) {
+		max = Sum;
+		P = S;
+	}
+	for (W = Graph->G[S].FirstEdge; W; W = W->Next) {//对S的每个邻接点
+		if (Visited[W->AdjV] == 0) {//如果没有访问过，访问之
+			Visited[W->AdjV] = 1;
+			DFS(Graph, W->AdjV, Sum + W->Weight);
 		}
-	if (MinDist < INFINITY)
-		return MinV;
-	else return -1;
+	}
+}
+
+void InsertEdge(LGraph Graph, Edge E)
+{
+	PtrToAdjVNode NewNode1 = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
+	NewNode1->AdjV = E->V2;
+	NewNode1->Weight = E->Weight;
+	NewNode1->Next = Graph->G[E->V1].FirstEdge;
+	Graph->G[E->V1].FirstEdge = NewNode1;
+	PtrToAdjVNode NewNode2 = (PtrToAdjVNode)malloc(sizeof(struct AdjVNode));
+	NewNode2->AdjV = E->V1;
+	NewNode2->Weight = E->Weight;
+	NewNode2->Next = Graph->G[E->V2].FirstEdge;
+	Graph->G[E->V2].FirstEdge = NewNode2;
 }
 
 
-int Prim(MGraph Graph,LGraph MST) {
-	MST = CreateLGraph(Graph->Nv);
+int main() {
 	Edge E = (Edge)malloc(sizeof(struct ENode));
-	int dist[MaxVertexNum];
-	int parent[MaxVertexNum];//下标处保存下标节点的父节点
-	Vertex V, W;
-	WeightType TotalWeight = 0;
-	int count = 0;
-	for (V = 0; V < Graph->Nv; V++) {
-		dist[V] = Graph->G[0][V];
-		parent[V] = 0;
-	}
-	{//处理第一个节点
-		dist[0] = 0;
-		parent[0] = -1;
-		count++;
-	}
-	while (1) {
-		V = FindMin(Graph, dist);
-		if (V == -1)
-			break;
-		TotalWeight += dist[V];
-		count++;
-		dist[V]= 0;
-		//每多收录一个节点，把边插入
-		E->V1 = parent[V];
-		E->V2 = V;
-		E->Weight = dist[V];
+	LGraph Graph = (LGraph)malloc(sizeof(struct GNode));
+	cin >> Graph->Nv;
+	Graph->Ne = Graph->Nv - 1;
+	for (int i = 1; i <= Graph->Nv; i++)
+		Graph->G[i].FirstEdge = NULL;
+	for (int i = 1; i < Graph->Nv; i++) {
+		cin >> E->V1 >> E->V2 >> E->Weight;
 		InsertEdge(Graph, E);
-		for (W = 0; W < Graph->Nv; W++) {
-			if (dist[W] != 0 && Graph->G[V][W] < INFINITY)//如果W未被收录且是V的邻接点
-				if (Graph->G[V][W] < dist[W]) {
-					dist[W] = Graph->G[V][W];
-					parent[W] = V;
-				}
-		}
 	}
-	if (count != Graph->Nv)
-		return -1;
-	else
-		return TotalWeight;
+	DFS(Graph, 1, 0);
+	cout << left << setw(5) << max << left << setw(5) << P << endl;
+	DFS(Graph, P, 0);
+	cout << left << setw(5) << max << left << setw(5) << P << endl;
+	cout << max * (max + 1) / 2 + max * 10 << endl;
+	return 0;
 }

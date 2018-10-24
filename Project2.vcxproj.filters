@@ -51,12 +51,12 @@
     <ClInclude Include="Search.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Array.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Homework.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="My practice22.cpp">
+    <ClCompile Include="My practice23.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

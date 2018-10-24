@@ -4,11 +4,11 @@
 #define MAXSIZE 1000
 using namespace std;
 typedef int ElemType;
-typedef struct {
+typedef struct triple{
 	int i, j;
 	ElemType e;
 }Triple;
-typedef struct {
+typedef struct matrix{
 	Triple data[MAXSIZE + 1];
 	int mu, nu, tu;
 }Matrix;
