@@ -1,9 +1,11 @@
-#pragma once
+#ifndef MATRIX_H
+#define MATRIX_H
 #include <iostream>
 #include <iomanip>
 #define MAXSIZE 1000
 using namespace std;
 typedef int ElemType;
+
 typedef struct triple{
 	int i, j;
 	ElemType e;
@@ -58,8 +60,7 @@ Matrix FastTranspose(Matrix &M)
 	}
 	return T;
 }
-
-ostream &operator <<(ostream &os, Matrix &M)
+ostream& operator <<(ostream &os, Matrix &M)
 {
 	int p = 1;
 	int row, col;
@@ -82,3 +83,122 @@ ostream &operator <<(ostream &os, Matrix &M)
 	}
 	return os;
 }
+
+
+typedef struct OLnode {
+	//Orthgonal List 正交表，十字链表
+	int Row, Col;
+	ElemType Value;
+	OLNode Down, Right;
+} *OLNode;
+typedef struct CrossNode {
+	int m, n, t;
+	OLNode *RP;
+	OLNode *CP;
+}*CrossList;
+CrossList CreateSMatrix() {
+	CrossList M = (CrossList)malloc(sizeof(struct CrossNode));
+	if (!M) {
+		cout << "内存不足" << endl;
+		exit(1);
+	}
+	cout << "请输入矩阵的行数、列数和非零元个数:";
+	cin >> M->m >> M->n >> M->t;
+	if (!(M->RP = (OLNode *)malloc((M->m + 1) * sizeof(OLNode)))) {
+		cout << "内存不足" << endl;
+		exit(1);
+	}
+	if (!(M->CP = (OLNode *)malloc((M->n + 1) * sizeof(OLNode)))) {
+		cout << "内存不足" << endl;
+		exit(1);
+	}
+	for (int i = 1; i <= M->m; i++)//初始化行指针
+		M->RP[i] = NULL;
+	for (int i = 1; i <= M->n; i++)//初始化列指针
+		M->CP[i] = NULL;
+	OLNode P;
+	OLNode Q;
+	for(int count=1;count<=M->t;count++){
+		if (!(P = (OLNode)malloc(sizeof(struct OLnode)))) {
+			cout << "内存不足" << endl;
+			exit(1);
+		}
+		cin >> P->Row >> P->Col >> P->Value;
+		if (M->RP[P->Row] == NULL || M->RP[P->Row]->Col > P->Col) {
+			P->Right = M->RP[P->Row];
+			M->RP[P->Row] = P;
+		}
+		else {//寻找在行中的插入位置
+			for (Q = M->RP[P->Row]; Q->Right && Q->Right->Col < P->Col; Q = Q->Right);
+			P->Right = Q->Right;
+			Q->Right = P;
+		}
+		if (M->CP[P->Col] == NULL || M->CP[P->Col]->Row > P->Row) {
+			P->Down = M->CP[P->Col];
+			M->CP[P->Col] = P;
+		}
+		else {//寻找在列中的插入位置
+			for (Q = M->CP[P->Col]; Q->Down && Q->Down->Row < P->Row; Q = Q->Down);
+			P->Down = Q->Down;
+			Q->Down = P;
+		}
+	}
+	return M;
+}
+ostream& operator <<(ostream &os, CrossList L) {
+	OLNode P;
+	for (int i = 1; i <= L->m; i++) {
+		P = L->RP[i];
+		for (int j = 1; j <= L->n; j++) {
+			if (P && P->Col == j) {
+				os << left << setw(4) << P->Value;
+				P = P->Right;
+			}
+			else
+				os << left << setw(4) << 0;
+		}
+		os << endl;
+	}
+	return os;
+}
+
+
+struct GNode {
+	int tag;
+	union {
+		ElemType data;
+		struct GNode *sublist;
+	};
+	struct GNode *next;
+};
+int LengthGList(struct GNode *GL) {
+	//求GL所指向的广义表的长度
+	if (GL != NULL)
+		return 1 + LengthGList(GL->next);
+	else
+		return 0;
+}
+int SizeGList(struct GNode *GL) {
+	int size = 0;
+	struct GNode *P = GL;
+	while (P != NULL) {
+		size++;
+		P = P->next;
+	}
+	return size;
+}
+int DepthGList(struct GNode* GL) {
+	//求GL指向的广义表的深度
+	int max = 0;
+	//遍历表中的每一个节点，找出所有子表的最大深度
+	while (GL != NULL) {
+		if (GL->tag == 1) {
+			int dep = DepthGList(GL->sublist);
+			if (dep > max)
+				max = dep;
+		}
+		GL = GL->next;
+	}
+	return max + 1;
+}
+#endif
