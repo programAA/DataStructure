@@ -168,7 +168,7 @@ List Merge(List L1, List L2) {
 
 typedef struct LNode {
 	ElemType Data;
-	LinkList Next;
+	struct LNode*  Next;
 }*LinkList;
 LinkList InitLinkList() {
 	return NULL;
@@ -406,5 +406,138 @@ bool DeteteValue(LinkList &L, ElemType x) {
 	free(P2);
 	/*返回true表示删除成功*/
 	return true;
+}
+void Traverse(LinkList L) {
+	while (L != NULL) {
+		cout << L->Data << endl;
+		L = L->Next;
+	}
+}
+LinkList Merge(LinkList &L1, LinkList &L2) {
+	LinkList L, P1, P2;//L保存头结点
+	if (L1 == NULL && L2 == NULL)
+		return NULL;
+	if (L1 == NULL) {//L1为空链表，L2非空
+		L = L2;
+		L2 = L2->Next;
+	}
+	else {//L1非空，L2可能为空，可能非空
+		if (L2 == NULL || L1->Data <= L2->Data) {
+			L = L1;
+			L1 = L1->Next;
+		}
+		else {//L1,L2均非空且L1->Data>L2->Data
+			L = L2;
+			L2 = L2->Next;
+		}
+	}
+	P1 = L;//P完成新链表构造工作
+	while (L1 != NULL && L2 != NULL) {
+		//将L1，L2的节点按序排列构造新链表，直到其中一个节点用完
+		if (L1->Data < L2->Data) {
+			P1->Next = L1;
+			P1 = L1;
+			L1 = L1->Next;
+		}
+		else if (L1->Data > L2->Data) {
+			P1->Next = L2;
+			P1 = L2;
+			L2 = L2->Next;
+		}
+		else {//L1->Data = L2->Data,删除其中一个
+			P2 = L2;
+			L2 = L2->Next;
+			free(P2);
+		}
+	}
+	while (L1 != NULL) {//将L1剩余部分加入新链表
+		P1->Next = L1;
+		P1 = L1;
+		L1 = L1->Next;
+	}
+	while (L2 != NULL) {//将L2剩余部分加入新链表
+		P1->Next = L2;
+		P1 = L2;
+		L2 = L2->Next;
+	}
+	return L;
+}
+LinkList FindMax(LinkList L) {
+	ElemType max;
+	LinkList maxNode;
+	if (L != NULL) {
+		max = L->Data;
+		maxNode = L;
+	}
+	while (L->Next != NULL) {
+		L = L->Next;
+		if (L->Data > max) {
+			max = L->Data;
+			maxNode = L;
+		}
+	}
+	return maxNode;
+}
+void Reverse(LinkList &L) {
+	LinkList Head;//保存链表头
+	LinkList P1, P2;//P2指向要改变结点，P1指向改变后P2要指向的结点
+	Head = L;
+	while (L->Next != NULL) {//循环结束后L指向链表尾，即翻转后的链表头
+		L = L->Next;
+	}
+	P2 = L;
+	P1 = Head;
+	while (P2 != Head) {//从最后一个结点向前一个一个的改变
+		if (P1->Next == P2) {
+			P2->Next = P1;
+			P2 = P1;
+			P1 = Head;
+		}
+		else
+			P1 = P1->Next;
+	}
+	Head->Next = NULL;
+}
+void MakeNULL(LinkList &L) {
+	LinkList P;
+	if (L->Next == L)//只有一个头结点的空链表
+		return;
+	L = L->Next;//指向头结点
+	P = L->Next;//指向头结点后面的元素
+	while (L->Next != L) {
+		L->Next = P->Next;
+		free(P);
+		P = L->Next;
+	}
+}
+bool Judge(LinkList L) {
+	return L->Next == L ? true : false;
+}
+void EnQueue(LinkList &L, ElemType x) {
+	LinkList NewP = (LinkList)malloc(sizeof(struct LNode));
+	if (NewP == NULL) {
+		cout << "动态内存不足,程序退出" << endl;
+		exit(1);
+	}
+	NewP->Data = x;
+	NewP->Next = L->Next;
+	L->Next = NewP;
+	L = NewP;
+}
+ElemType DeQueue(LinkList &L) {
+	LinkList P1, P2;
+	ElemType temp;
+	if (L->Next == L) {
+		cout << "队列为空，无法出队" << endl;
+		exit(1);
+	}
+	P1 = L->Next;//指向头结点
+	P2 = P1->Next;//指向要出队的结点
+	P1->Next = P2->Next;
+	temp = P2->Data;
+	free(P2);
+	if (P1->Next == P1)
+		L = P1;
+	return temp;
 }
 #endif

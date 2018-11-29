@@ -1,10 +1,11 @@
 #ifndef STACK_H
 #define STACK_H
 #include <iostream>
+#include "Tree.h"
 #define STACK_INIT_SIZE 100
 #define STACK_INCREMENT 10
 using namespace std;
-typedef int SElemType;
+typedef struct TNode* SElemType;
 
 
 typedef struct stack {
@@ -76,15 +77,15 @@ SElemType GetTop(Stack S)//如果栈不空，返回栈顶元素
 }
 
 
-typedef struct linkstack {
+typedef struct SNode {
 	SElemType data;
-	struct linkstack* next;
+	struct SNode* next;
 }*LStack;
 LStack InitLStack() {
 	return NULL;
 }
 void Push(LStack &S, SElemType x) {
-	LStack newP = (LStack)malloc(sizeof(struct linkstack));
+	LStack newP = (LStack)malloc(sizeof(struct SNode));
 	if (newP == NULL) {
 		cout << "动态内存不足" << endl;
 		exit(1);
@@ -103,5 +104,11 @@ SElemType Pop(LStack &S) {
 	S = S->next;
 	free(P);
 	return temp;
+}
+bool IsEmpty(LStack S) {
+	return S == NULL ? true : false;
+}
+SElemType GetTop(LStack S) {
+	return S->data;
 }
 #endif

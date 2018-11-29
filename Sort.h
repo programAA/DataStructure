@@ -91,13 +91,13 @@ void Select_sort(ElemType A[], int N)
 	}
 }
 //堆排序
-void Percdown(ElemType A[], int s, int N)//一次执行后使以s为根节点的树变成最大堆
-{
+void Percdown(ElemType A[], int s, int N)
+{   //一次执行后使以s为根节点的树变成最大堆
 	ElemType temp = A[s];
 	int child = s * 2 + 1;
-	while (child < N) {
+	while (child < N) {//child < N说明当前父节点存在儿子节点
 		if (child + 1 < N && A[child] < A[child + 1])
-			child++;
+			child++;//child表示儿子节点中值较大的一个
 		if (A[child] > A[s]) {
 			A[s] = A[child];
 			s = child;

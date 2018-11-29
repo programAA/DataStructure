@@ -1,8 +1,9 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 #include <iostream>
+#include "Tree.h"
 using namespace std;
-typedef int QElemType;
+typedef struct TNode* QElemType;
 
 
 typedef struct queue {
