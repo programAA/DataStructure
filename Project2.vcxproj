@@ -115,7 +115,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CArray.h" />
-    <ClInclude Include="Class_List.h" />
+    <ClInclude Include="CList.h" />
+    <ClInclude Include="CQueue.h" />
+    <ClInclude Include="CStack.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="List.h" />

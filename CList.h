@@ -5,15 +5,15 @@
 #define ADD_SIZE 10
 using namespace std;
 typedef int ElemType;
-class Class_List {
+class List {
 private:
 	ElemType * elem;
 	int length;  //当前长度
 	int size;    //当前容量
 public:
-	Class_List();                 //构造函数
-	Class_List(Class_List &L);    //构造函数
-	~Class_List() { free(elem); } //析构函数
+	List();                 //构造函数
+	List(List &L);    //复制构造函数
+	~List() { free(elem); } //析构函数
 	void Insert(int i, ElemType x);
 	void Traverse();
 	void Delete(int i);
@@ -22,24 +22,24 @@ public:
 	bool Empty() { return (length == 0) ? true : false; }
 	bool Full() { return (length >= size) ? true : false; }
 };
-Class_List::Class_List() {
+List::List() {
 	elem = (ElemType *)malloc(INIT_SIZE * sizeof(ElemType));
 	length = 0;
 	size = INIT_SIZE;
 }
-Class_List::Class_List(Class_List &L) {
+List::List(List &L) {
 	elem = L.elem;
 	length = L.length;
 	size = L.size;
 }
-void Class_List::Traverse() {
+void List::Traverse() {
 	for (int i = 0; i < length; i++) {
 		cout << setw(5) << left << elem[i];
 		if ((i + 1) % 10 == 0)
 			cout << endl;
 	}
 }
-void Class_List::Insert(int i, ElemType x) {
+void List::Insert(int i, ElemType x) {
 	if (i<1 || i>length + 1) {
 		cout << "i值不合法" << endl;
 		return;
@@ -55,7 +55,7 @@ void Class_List::Insert(int i, ElemType x) {
 	elem[p] = x;
 	length++;
 }
-void Class_List::Delete(int i)
+void List::Delete(int i)
 {
 	if (i<1 || i>length) {
 		cout << "i值错误";
@@ -66,7 +66,7 @@ void Class_List::Delete(int i)
 		elem[j] = elem[j + 1];
 	length--;
 }
-ElemType Class_List::GetElem(int i) {
+ElemType List::GetElem(int i) {
 	if (i<1 || i>length) {
 		cout << "i值错误";
 		return 0;

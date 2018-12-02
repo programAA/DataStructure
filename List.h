@@ -414,24 +414,11 @@ void Traverse(LinkList L) {
 	}
 }
 LinkList Merge(LinkList &L1, LinkList &L2) {
-	LinkList L, P1, P2;//L保存头结点
 	if (L1 == NULL && L2 == NULL)
 		return NULL;
-	if (L1 == NULL) {//L1为空链表，L2非空
-		L = L2;
-		L2 = L2->Next;
-	}
-	else {//L1非空，L2可能为空，可能非空
-		if (L2 == NULL || L1->Data <= L2->Data) {
-			L = L1;
-			L1 = L1->Next;
-		}
-		else {//L1,L2均非空且L1->Data>L2->Data
-			L = L2;
-			L2 = L2->Next;
-		}
-	}
-	P1 = L;//P完成新链表构造工作
+	LinkList L = (LinkList)malloc(sizeof(struct LNode));//L保存新链表头结点
+	LinkList P1, P2;
+	P1 = L;//P1指向新链表的尾节点
 	while (L1 != NULL && L2 != NULL) {
 		//将L1，L2的节点按序排列构造新链表，直到其中一个节点用完
 		if (L1->Data < L2->Data) {
@@ -444,8 +431,8 @@ LinkList Merge(LinkList &L1, LinkList &L2) {
 			P1 = L2;
 			L2 = L2->Next;
 		}
-		else {//L1->Data = L2->Data,删除其中一个
-			P2 = L2;
+		else {//L1->Data = L2->Data,删除L2中的节点
+			P2 = L2;//P2指向要释放的空间
 			L2 = L2->Next;
 			free(P2);
 		}
@@ -460,6 +447,9 @@ LinkList Merge(LinkList &L1, LinkList &L2) {
 		P1 = L2;
 		L2 = L2->Next;
 	}
+	P2 = L;
+	L = L->Next;
+	free(P2);
 	return L;
 }
 LinkList FindMax(LinkList L) {
@@ -497,47 +487,5 @@ void Reverse(LinkList &L) {
 			P1 = P1->Next;
 	}
 	Head->Next = NULL;
-}
-void MakeNULL(LinkList &L) {
-	LinkList P;
-	if (L->Next == L)//只有一个头结点的空链表
-		return;
-	L = L->Next;//指向头结点
-	P = L->Next;//指向头结点后面的元素
-	while (L->Next != L) {
-		L->Next = P->Next;
-		free(P);
-		P = L->Next;
-	}
-}
-bool Judge(LinkList L) {
-	return L->Next == L ? true : false;
-}
-void EnQueue(LinkList &L, ElemType x) {
-	LinkList NewP = (LinkList)malloc(sizeof(struct LNode));
-	if (NewP == NULL) {
-		cout << "动态内存不足,程序退出" << endl;
-		exit(1);
-	}
-	NewP->Data = x;
-	NewP->Next = L->Next;
-	L->Next = NewP;
-	L = NewP;
-}
-ElemType DeQueue(LinkList &L) {
-	LinkList P1, P2;
-	ElemType temp;
-	if (L->Next == L) {
-		cout << "队列为空，无法出队" << endl;
-		exit(1);
-	}
-	P1 = L->Next;//指向头结点
-	P2 = P1->Next;//指向要出队的结点
-	P1->Next = P2->Next;
-	temp = P2->Data;
-	free(P2);
-	if (P1->Next == P1)
-		L = P1;
-	return temp;
 }
 #endif
