@@ -417,10 +417,9 @@ LinkList Merge(LinkList &L1, LinkList &L2) {
 	if (L1 == NULL && L2 == NULL)
 		return NULL;
 	LinkList L = (LinkList)malloc(sizeof(struct LNode));//L保存新链表头结点
-	LinkList P1, P2;
-	P1 = L;//P1指向新链表的尾节点
+	LinkList P1, P2;//P1指向新链表的尾节点,P2指向元素重复时要删除的节点
+	P1 = L;
 	while (L1 != NULL && L2 != NULL) {
-		//将L1，L2的节点按序排列构造新链表，直到其中一个节点用完
 		if (L1->Data < L2->Data) {
 			P1->Next = L1;
 			P1 = L1;
@@ -431,21 +430,22 @@ LinkList Merge(LinkList &L1, LinkList &L2) {
 			P1 = L2;
 			L2 = L2->Next;
 		}
-		else {//L1->Data = L2->Data,删除L2中的节点
-			P2 = L2;//P2指向要释放的空间
+		else {//L1->Data = L2->Data,把L1中节点加入链表，删除L2中的节点
+			P1->Next = L1;
+			P1 = L1;
+			L1 = L1->Next;
+			P2 = L2;
 			L2 = L2->Next;
 			free(P2);
 		}
 	}
-	while (L1 != NULL) {//将L1剩余部分加入新链表
+	if (L1 != NULL) {
 		P1->Next = L1;
-		P1 = L1;
-		L1 = L1->Next;
+		L1 = NULL;
 	}
-	while (L2 != NULL) {//将L2剩余部分加入新链表
+	if (L2 != NULL) {
 		P1->Next = L2;
-		P1 = L2;
-		L2 = L2->Next;
+		L2 = NULL;
 	}
 	P2 = L;
 	L = L->Next;
@@ -469,23 +469,19 @@ LinkList FindMax(LinkList L) {
 	return maxNode;
 }
 void Reverse(LinkList &L) {
-	LinkList Head;//保存链表头
-	LinkList P1, P2;//P2指向要改变结点，P1指向改变后P2要指向的结点
-	Head = L;
-	while (L->Next != NULL) {//循环结束后L指向链表尾，即翻转后的链表头
-		L = L->Next;
-	}
+	if (L == NULL)
+		return;
+	LinkList P1, P2, P3;//P2指向要改变结点，P1指向P2的前驱，P3指向P2的后继
+	P1 = NULL;
 	P2 = L;
-	P1 = Head;
-	while (P2 != Head) {//从最后一个结点向前一个一个的改变
-		if (P1->Next == P2) {
-			P2->Next = P1;
-			P2 = P1;
-			P1 = Head;
-		}
-		else
-			P1 = P1->Next;
+	P3 = L->Next;
+	while (P3 != NULL) {
+		P2->Next = P1;
+		P1 = P2;
+		P2 = P3;
+		P3 = P3->Next;
 	}
-	Head->Next = NULL;
+	P2->Next = P1;
+	L = P2;
 }
 #endif
