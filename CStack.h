@@ -1,6 +1,8 @@
 #ifndef CSTACK_H
 #define CSTACK_H
 #include <iostream>
+
+
 template <typename T>
 struct SNode {
 	T Data;
@@ -18,6 +20,7 @@ public:
 	T GetTop();
 	int GetSize();
 };
+
 template <typename T>
 void Stack<T>::Push(T x) {
 	SNode<T> *newP = new SNode<T>;
