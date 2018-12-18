@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
 	char A[10] = { 'a','c','i','f','h','j','e','b','d','g' };
-	Merge_Sort1(A, 10);
+	Insert_Sort(A, 10);
 	for (int i = 0; i < 10; i++)
 		cout << A[i] << endl;
 	return 0;

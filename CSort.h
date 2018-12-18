@@ -1,4 +1,5 @@
 #pragma once
+//交换
 template <typename T>
 void Swap(T *a, T *b) {
 	if (a != b) {
@@ -7,7 +8,6 @@ void Swap(T *a, T *b) {
 		*b = temp;
 	}
 }
-
 template <typename T>
 void Swap(T &a, T &b) {
 	if (&a != &b) {
@@ -17,6 +17,8 @@ void Swap(T &a, T &b) {
 	}
 }
 
+
+//冒泡排序(稳定)
 template <typename T>
 void Bubble_Sort(T A[], int N) {
 	int i, j, flag;
@@ -33,6 +35,8 @@ void Bubble_Sort(T A[], int N) {
 	}
 }
 
+
+//选择排序(不稳定)
 template <typename T>
 void Select_Sort(T A[], int N) {
 	int i, j, t;
@@ -46,6 +50,8 @@ void Select_Sort(T A[], int N) {
 	}
 }
 
+
+//插入排序(稳定)
 template <typename T>
 void Insert_Sort(T A[], int N) {
 	int i, j;
@@ -58,6 +64,8 @@ void Insert_Sort(T A[], int N) {
 	}
 }
 
+
+//希尔排序(不稳定)
 template <typename T>
 void Shell_Sort(T A[], int N) {
 	int si, D, i, j;
@@ -74,27 +82,8 @@ void Shell_Sort(T A[], int N) {
 	}
 }
 
-template <typename T>
-void Table_Sort(T A[], int N) {
-	int i, j, temp;
-	int *table = new int[N];
-	for (i = 0; i < N; i++)
-		table[i] = i;
-	for (i = 1; i < N; i++) {
-		temp = table[i];
-		for (j = i; j >= 1 && A[table[j - 1]] > A[temp]; j--)
-			table[j] = table[j - 1];
-		table[j] = temp;
-	}
-	T *B = new T[N];
-	for (i = 0; i < N; i++)
-		B[i] = A[table[i]];
-	for (i = 0; i < N; i++)
-		A[i] = B[i];
-	delete[]table;
-	delete[]B;
-}
 
+//堆排序(不稳定)
 template <typename T>
 void PerDown(T A[], int s, int N) {
 	T temp = A[s];
@@ -123,6 +112,8 @@ void Heap_Sort(T A[], int N) {
 	}
 }
 
+
+//快速排序(不稳定)
 template <typename T>
 T Median(T A[], int L, int R) {//使A[L]<A[Mid]<A[R],并交换A[Mid],A[R-1]
 	int Mid = (L + R) / 2;
@@ -161,6 +152,9 @@ void Quick_Sort(T A[], int N) {//统一接口
 	QSort(A, 0, N - 1);
 }
 
+
+//归并排序(稳定)
+//递归实现
 template <typename T>
 void Merge1(T A[], T TmpA[], int L, int R, int RE) {
 	int LE = R - 1;
@@ -190,6 +184,7 @@ void Merge_Sort1(T A[], int N) {
 	MSort(A, TmpA, 0, N - 1);
 	delete[]TmpA;
 }
+//非递归实现
 template <typename T>
 void Merge2(T A[], T TmpA[], int L, int R, int RE) {
 	int LE = R - 1;
@@ -224,4 +219,27 @@ void Merge_Sort2(T A[], int N) {
 		Length *= 2;
 	}
 	delete[]TmpA;
+}
+
+
+//表排序
+template <typename T>
+void Table_Sort(T A[], int N) {
+	int i, j, temp;
+	int *table = new int[N];
+	for (i = 0; i < N; i++)
+		table[i] = i;
+	for (i = 1; i < N; i++) {
+		temp = table[i];
+		for (j = i; j >= 1 && A[table[j - 1]] > A[temp]; j--)
+			table[j] = table[j - 1];
+		table[j] = temp;
+	}
+	T *B = new T[N];
+	for (i = 0; i < N; i++)
+		B[i] = A[table[i]];
+	for (i = 0; i < N; i++)
+		A[i] = B[i];
+	delete[]table;
+	delete[]B;
 }
