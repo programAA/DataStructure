@@ -118,6 +118,7 @@
     <ClInclude Include="CGraph.h" />
     <ClInclude Include="CList.h" />
     <ClInclude Include="CQueue.h" />
+    <ClInclude Include="CSort.h" />
     <ClInclude Include="CStack.h" />
     <ClInclude Include="CTree.h" />
     <ClInclude Include="Function.h" />

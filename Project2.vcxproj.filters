@@ -60,6 +60,9 @@
     <ClInclude Include="CGraph.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CSort.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="My practice25.cpp">
