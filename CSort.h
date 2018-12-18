@@ -225,4 +225,3 @@ void Merge_Sort2(T A[], int N) {
 	}
 	delete[]TmpA;
 }
-
