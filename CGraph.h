@@ -229,6 +229,7 @@ public:
 		BFSAchievement(S, v);
 	}
 	void Dijkstra(Vertex A, Vertex B) {
+		//有权图的单源最短路算法
 		float *dist = new float[Nv];
 		int *path = new int[Nv];
 		if (DijkstraAchievement(dist, path, A)) {
@@ -238,6 +239,24 @@ public:
 		}
 		else
 			std::cout << "图中有负回路!" << std::endl;
+	}
+	bool Floyd(WeightType D[][MaxVertexNum], Vertex path[][MaxVertexNum]) {
+		Vertex i, j, k;
+		for (i = 0; i < Nv; ++i)
+			for (j = 0; j < Nv; ++j) {
+				D[i][j] = G[i][j];//初始化最短路径，默认不存在的边路径权重为INFINITY
+				path[i][j] = -1;
+			}
+		for (k = 0; k < Nv; ++k)
+			for (i = 0; i < Nv; ++i)
+				for (j = 0; j < Nv; ++j)
+					if (D[i][k] + D[k][j] < D[i][j]) {
+						D[i][j] = D[i][k] + D[k][j];
+						if (i == j && D[i][j] < 0)//存在负值圈
+							return false;
+						path[i][j] = k;
+					}
+		return true;
 	}
 	void Prim(Vertex S = 0) {//加点法
 		int *A = new int[Nv - 1];//存储Nv-1条边
@@ -310,11 +329,11 @@ private:
 		NewNode1->Weight = E->Weight;
 		NewNode1->Next = G[E->V1].FirstEdge;
 		G[E->V1].FirstEdge = NewNode1;
-		VNode* NewNode2 = new VNode;
+		/*VNode* NewNode2 = new VNode;
 		NewNode2->AdjV = E->V1;
 		NewNode2->Weight = E->Weight;
 		NewNode2->Next = G[E->V2].FirstEdge;
-		G[E->V2].FirstEdge = NewNode2;
+		G[E->V2].FirstEdge = NewNode2;*/
 	}
 	void DFSAchievement(Vertex S,int Visited[]) {
 		VNode* V;
@@ -424,6 +443,7 @@ public:
 		BFSAchievement(S, v);
 	}
 	void Unweighted(Vertex S,Vertex Aim) {
+		//无权图的单源最短路算法
 		int *dist = new int[Nv];
 		memset(dist, -1, sizeof(int) * Nv);
 		int *path = new int[Nv];
@@ -434,6 +454,29 @@ public:
 		std::cout << "The dist from " << S << " to " << Aim << ":" << dist[Aim] << std::endl;
 		std::cout << "The path from " << S << " to " << Aim << ":" << endl;
 		DisplayPath(S, Aim, path);
+	}
+	bool TopSort(Vertex TopOrder[]) {
+		int Indegree[MaxVertexNum] = { 0 };//每个顶点的入度初始化为0
+		int cnt = 0;
+		Vertex V;
+		VNode *W;
+		Queue<Vertex> Q;
+		for (V = 0; V < Nv; ++V)
+			for (W = G[V].FirstEdge; W; W = W->Next)
+				Indegree[W->AdjV]++;//累计每个顶点的入度
+		for (V = 0; V < Nv; ++V)
+			if (Indegree[V] == 0)
+				Q.EnQueue(V);//把入度为0的顶点入队
+		while (!Q.IsEmpty()) {
+			V = Q.DeQueue();
+			TopOrder[cnt++] = V;//保存拓扑序并累计出列的顶点个数
+			for (W = G[V].FirstEdge; W; W = W->Next)
+				if (--Indegree[W->AdjV] == 0)//顶点的入度为0时，入队
+					Q.EnQueue(W->AdjV);
+		}
+		if (cnt != Nv)//有闭环
+			return false;
+		else return true;
 	}
 };
 #endif

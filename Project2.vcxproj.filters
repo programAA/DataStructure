@@ -18,12 +18,6 @@
     <ClInclude Include="Matrix.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="List.h">
       <Filter>头文件</Filter>
     </ClInclude>
