@@ -42,9 +42,6 @@
     <ClInclude Include="CArray.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Search.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CStack.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -54,13 +51,7 @@
     <ClInclude Include="CList.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CTree.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CGraph.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CSort.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

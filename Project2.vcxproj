@@ -118,15 +118,12 @@
     <ClInclude Include="CGraph.h" />
     <ClInclude Include="CList.h" />
     <ClInclude Include="CQueue.h" />
-    <ClInclude Include="CSort.h" />
     <ClInclude Include="CStack.h" />
-    <ClInclude Include="CTree.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Queue.h" />
-    <ClInclude Include="Search.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Tree.h" />

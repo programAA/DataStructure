@@ -1,24 +1,7 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
-typedef int(*Ptr)(int, int);
-int add(int a, int b)
-{
-	return a + b;
-}
-int min(int a, int b)
-{
-	return a - b;
-}
-int fun1(int(*p)(int,int), int a, int b)
-{
-	return p(a, b);
-}
-int fun2(Ptr p, int a, int b)
-{
-	return p(a, b);
-}
-int turn(int x)//整数反向输出
-{
+#include <iostream>
+int turn(int x) {//整数反向输出
 	int temp = 0;
 	while (x != 0)
 	{

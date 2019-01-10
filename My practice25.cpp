@@ -1,13 +1,14 @@
 #include <iostream>
-#include "CSort.h"
-using namespace std;
+#include <iomanip>
+#include "Sort.h"
+
+
 
 int main() {
-	char A[10] = { 'a','c','i','f','h','j','e','b','d','g' };
-	Insert_Sort(A, 10);
+	int A[10] = { 5,4,1,2,3,6,8,7,9,0 };
+	Quick_Sort(A, 10);
 	for (int i = 0; i < 10; i++)
-		cout << A[i] << endl;
-	return 0;
+		std::cout << A[i] << std::endl;
 }
 
 
