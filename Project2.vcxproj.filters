@@ -45,7 +45,7 @@
     <ClInclude Include="CList.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CGraph.h">
+    <ClInclude Include="Graph.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

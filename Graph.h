@@ -1,5 +1,5 @@
-#ifndef CGRAPH_H
-#define CGRAPH_H
+#ifndef GRAPH_H
+#define GRAPH_H
 #include <iostream>
 #include "CQueue.h"
 #include "CStack.h"
