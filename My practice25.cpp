@@ -1,14 +1,12 @@
 #include <iostream>
-#include <iomanip>
 #include "Sort.h"
-#include "CGraph.h"
+
 
 
 
 int main() {
-	int A[10];
-	LGraph<int> Graph;
-	Graph.TopSort(A);
+	int A[10] = { 5,4,3,6,8,9,7,2,1,0 };
+	Quick_Sort1(A, 10);
 	for (int i = 0; i < 10; i++) {
 		std::cout << A[i] << std::endl;
 	}

@@ -115,6 +115,28 @@ void Heap_Sort(T A[], int N) {
 
 //快速排序(不稳定)
 template <typename T>
+void QSort1(T A[], int begin, int end) {
+	int left = begin + 1;
+	int right = end;
+	while (1) {
+		while (A[left] < A[begin]) left++;
+		while (A[right] > A[begin]) right--;
+		if (left < right)
+			Swap(A[left], A[right]);
+		else break;
+	}
+	Swap(A[begin], A[right]);
+	if (begin < right - 1)//当前区间超过一个元素时执行
+		QSort1(A, begin, right - 1);
+	if (right + 1 < end)//当前区间超过一个元素时执行
+		QSort1(A, right + 1, end);
+}
+template <typename T>
+void Quick_Sort1(T A[], int N) {
+	QSort1(A, 0, N - 1);
+}
+
+template <typename T>
 T Median(T A[], int L, int R) {//使A[L]<A[Mid]<A[R],并交换A[Mid],A[R-1]
 	int Mid = L + (R - L) / 2;//防止L+R过大溢出
 	if (A[L] > A[Mid])
@@ -166,8 +188,8 @@ void Merge1(T A[], T TmpA[], int L, int R, int RE) {
 	}
 	while (L <= LE)   TmpA[Tmp++] = A[L++];
 	while (R <= RE)  TmpA[Tmp++] = A[R++];
-	for (int i = 0; i < Num; i++, RE--)
-		A[RE] = TmpA[RE];
+	for (int i = 0; i < Num; i++)
+		A[RE] = TmpA[RE--];
 }
 template <typename T>
 void MSort(T A[], T TmpA[], int L, int RE) {
