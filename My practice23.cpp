@@ -35,8 +35,8 @@ int SeekPath(int x, int y) {
 	for (i = 0; i < 4; i++) {
 		row = x + Move[i][0];
 		col = y + Move[i][1];
-		if (maze[row][col] == 0 && mark[row][col] == 0) {
-			mark[row][col] = 1;
+		if (maze[row][col] == 0 && mark[row][col] == 0) {//没有访问过且是可走的
+			mark[row][col] = 1;//标记为已访问过
 			if (SeekPath(row, col)) {
 				cout << '(' << row << ',' << col << ')' << endl;
 				return 1;
