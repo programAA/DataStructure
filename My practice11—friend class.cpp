@@ -4,8 +4,7 @@
 #include <iostream>
 using namespace std;
 class B;
-class A
-{
+class A{
 private:
 	int x;
 public:
@@ -13,18 +12,17 @@ public:
 	void Set(B &b);
 	int Get() { return x; }
 };
-class B
-{
+class B{
 private:
 	int x;
 public:
 	B(int xx) { x = xx; }
-	friend class A;
-};                 
-void A::Set(B &b)
-{
+	friend class A;//声明A为B的友元,A中函数可访问B私有成员
+};
+void A::Set(B &b) {//此函数放到前面实现会运行出错，因为B尚未定义
 	x = b.x;
 }
+
 void main()
 {
 	A a(10);

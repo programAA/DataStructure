@@ -20,10 +20,11 @@ private:
 	string phone;//电话
 public:
 	string title;//职称
-	Teacher(string n,int a,string s,string ad,string p);//构造函数
+	Teacher(string n, int a, string s, string ad, string p, string t);//构造函数
 	void display();
 };
-Teacher::Teacher(string n, int a, string s, string ad, string p):name(n),age(a),sex(s),address(ad),phone(p){}
+Teacher::Teacher(string n, int a, string s, string ad, string p, string t)
+	:name(n), age(a), sex(s), address(ad), phone(p), title(t) {}
 void Teacher::display()
 {
 	cout << "姓名:" << name << endl;
@@ -31,6 +32,7 @@ void Teacher::display()
 	cout << "性别:" << sex << endl;
 	cout << "地址:" << address << endl;
 	cout << "电话:" << phone << endl;
+	cout << "职称:" << title << endl;
 }
 class Cadre {
 private:
@@ -41,8 +43,11 @@ private:
 	string phone;
 public:
 	string post;//职务
+	Cadre(string n, int a, string s, string ad, string p, string po);
 	void display();
 };
+Cadre::Cadre(string n, int a, string s, string ad, string p, string po)
+	:name(n), age(a), sex(s), address(ad), phone(p), post(po) {}
 void Cadre::display()
 {
 	cout << "姓名:" << name << endl;
@@ -54,11 +59,11 @@ void Cadre::display()
 }
 class Teacher_Cadre :public Teacher, public Cadre {
 private:
-	int wages;
+	int wages;//工资
 public:
-	Teacher_Cadre(string n, int a, string s, string ad, string p, string po, int w) :Teacher(n, a, s, ad, p)
+	Teacher_Cadre(string n, int a, string s, string ad, string p, string t, string po, int w)
+		:Teacher(n, a, s, ad, p, t), Cadre(n, a, s, ad, p, po)
 	{
-		post = po;
 		wages = w;
 	}
 	void display();
@@ -71,7 +76,7 @@ void Teacher_Cadre::display()
 }
 int main()
 {
-	Teacher_Cadre x("lihua",40,"male","zhoukoushi","18465895421","dean",8000);
+	Teacher_Cadre x("lihua", 40, "male", "zhoukoushi", "18465895421", "professor", "dean", 8000);
 	x.display();
 	x.Teacher::display();//防止二义性，指明继承自哪个基类
 	x.Cadre::display();

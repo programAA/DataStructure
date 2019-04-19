@@ -1,48 +1,52 @@
+//静态成员函数中不能访问非静态成员变量(不清楚变量属于哪个对象的?)
+//也不能调用非静态成员函数(显然非静态成员函数可能调用非静态成员变量)
+//静态成员变量只有一份，被所有该类型的对象共享
+//sizeof运算符不会计算静态成员变量
+//静态成员访问有三种方法
+//对象名.成员名
+//类名::成员名 
+//指针->成员名
+//引用.成员名
 #include <iostream>
 using namespace std;
 
-class Student {
+class Rectangle {
 private:
-	static float score;
+	int w, h;
+	static int TotalArea;
+	static int TotalNumber;
 public:
-	void input();
-	void cal_dis(int n);
-	static void cal();//申明时加static，下面实现时不需要再加static
+	Rectangle(int w,int h);
+	~Rectangle();
+	static void PrintTotal();
 };
-
-
-void Student::cal()
-{
-	score += 100;
-	cout << score << endl;
+//缺点,通过复制构造函数生成对象时不会增加，但消亡时却一定会调用析构函数减去
+//解决方法,不使用系统自动生成的复制构造函数,自己写一个复制构造函数
+Rectangle::Rectangle(int w,int h) {
+	this->w = w;
+	this->h = h;
+	TotalNumber++;
+	TotalArea += w * h;
+}
+Rectangle::~Rectangle() {
+	TotalNumber--;
+	TotalArea -= w * h;
+}
+void Rectangle::PrintTotal() {
+	cout << TotalNumber<< ',' << TotalArea << endl;
 }
 
+int Rectangle::TotalArea = 0;
+int Rectangle::TotalNumber = 0;
 
-void Student::input()
-{
-	float x;
-	cout << "请输入该学生成绩:";
-	cin >> x;
-	score += x;
-}
-
-
-void Student::cal_dis(int n)
-{
-	cout << "总成绩为:" << score << endl;
-	cout << "平均成绩为:" << score / n << endl;
-}  
-//静态成员函数不能调用非静态数据成员，要通过类的对象来调用。
-float Student::score = 0;//初始化静态成员，静态成员通常不在类的内部初始化
-
-
-int main()
-{
-	Student a, b, c;
-	a.input();
-	b.input();
-	c.input();
-	a.cal_dis(3);
-	Student::cal();
+int main() {
+	Rectangle r1(3, 3), r2(4, 4);
+	Rectangle *r3 = new Rectangle(5, 5);
+	Rectangle *r4;
+	Rectangle::PrintTotal();
+	delete r3;
+	r1.PrintTotal();
+	r3->PrintTotal();
+	r4->PrintTotal();
 	return 0;
 }
