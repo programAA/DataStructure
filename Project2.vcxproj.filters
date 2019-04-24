@@ -50,7 +50,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="My practice16—virtual function.cpp">
+    <ClCompile Include="My practice17—template.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
