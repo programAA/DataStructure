@@ -5,7 +5,7 @@
 using namespace std;
 
 template <class T>
-void sort(T a[],int n)
+void sort(T a[], int n)
 {
 	T c;
 	for (int i = 0; i < n - 1; i++)
