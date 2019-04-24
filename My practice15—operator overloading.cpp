@@ -1,16 +1,18 @@
-//ÖØÔØÔËËã·û()¡¢[]¡¢-> ¡¢=Ê±£¬ÔËËã·ûÖØÔØº¯Êý±ØÐëÉùÃ÷ÎªÀàµÄ³ÉÔ±º¯Êý
-//¶ÔÓÚÆäËûÔËËã·û£¬¿ÉÒÔÖØÔØÎª³ÉÔ±º¯Êý£¬Ò²¿ÉÖØÔØÎªÓÑÔªº¯Êý
-//ÖØÔØÎª³ÉÔ±º¯ÊýÊ±£¬º¯ÊýµÄ²ÎÊý¸öÊý±ÈÔ­ÓÐ²Ù×÷ÊýµÄ¸öÊýÉÙÒ»¸ö£¬¼´Ò»Ôª²Ù×÷·û²ÎÊý¸öÊýÎª0£¬¶þÔª²Ù×÷·ûµÄ²ÎÊý¸öÊýÎª1
-//ÖØÔØÎªÓÑÔªº¯ÊýÊ±£¬º¯ÊýµÄ²ÎÊý¸öÊýÓëÔ­ÓÐ²Ù×÷ÊýµÄ¸öÊýÏàÍ¬
+//ä¸å¯é‡è½½çš„è¿ç®—ç¬¦.ã€.*ã€::ã€?:ã€sizeof
+//åªèƒ½é‡è½½C++ä¸­å·²æœ‰çš„è¿ç®—ç¬¦ï¼Œé‡è½½æ—¶æœ€å¥½ä¸è¦æ›´æ”¹è¿ç®—ç¬¦åŽŸæœ¬çš„å«ä¹‰
+//é‡è½½è¿ç®—ç¬¦()ã€[]ã€-> ã€=æ—¶ï¼Œè¿ç®—ç¬¦é‡è½½å‡½æ•°å¿…é¡»å£°æ˜Žä¸ºç±»çš„æˆå‘˜å‡½æ•°
+//å¯¹äºŽå…¶ä»–è¿ç®—ç¬¦ï¼Œå¯ä»¥é‡è½½ä¸ºæˆå‘˜å‡½æ•°ï¼Œä¹Ÿå¯é‡è½½ä¸ºå‹å…ƒå‡½æ•°
+//é‡è½½ä¸ºæˆå‘˜å‡½æ•°æ—¶ï¼Œå‡½æ•°çš„å‚æ•°ä¸ªæ•°æ¯”åŽŸæœ‰æ“ä½œæ•°çš„ä¸ªæ•°å°‘ä¸€ä¸ªï¼Œå³ä¸€å…ƒæ“ä½œç¬¦å‚æ•°ä¸ªæ•°ä¸º0ï¼ŒäºŒå…ƒæ“ä½œç¬¦çš„å‚æ•°ä¸ªæ•°ä¸º1
+//é‡è½½ä¸ºå‹å…ƒå‡½æ•°æ—¶ï¼Œå‡½æ•°çš„å‚æ•°ä¸ªæ•°ä¸ŽåŽŸæœ‰æ“ä½œæ•°çš„ä¸ªæ•°ç›¸åŒ
 
-//Ç°ÖÃ++ÖØÔØÊ±Ã»ÓÐ²ÎÊý£¬¶øºóÖÃ++ÖØÔØÊ±ÓÐ²ÎÊý¡£²»»áÊ¹ÓÃÆä²ÎÊý£¬½ö½öÊÇÇø·ÖÓÃ¡£
-//¿ÉÒÔÀí½âÎªÇ°ÖÃ++ºóÃæÓÐ²ÎÊýÁË£¬ËùÒÔ²»ÐèÒª²ÎÊý¡£
-//Ç°ÖÃ++ÐèÒª·µ»ØÒýÓÃ£¬ÒòÎªÖØÔØ×Ô¼ÓÔËËã·ûºó¿ÉÒÔ·µ»Ø¶ÔÏóµÄÒýÓÃ£¬ÒÔ·½±ãÔÚ±í´ïÊ½ÖÐÁ¬ÐøÊ¹ÓÃ¡£
-//¶øºóÖÃ++·µ»ØµÄ²»ÊÇÒýÓÃ£¬ËùÒÔ²»ÄÜ½øÐÐÁ¬ÐøÊ¹ÓÃ¡£
+//å‰ç½®++é‡è½½æ—¶æ²¡æœ‰å‚æ•°ï¼Œè€ŒåŽç½®++é‡è½½æ—¶æœ‰å‚æ•°ã€‚ä¸ä¼šä½¿ç”¨å…¶å‚æ•°ï¼Œä»…ä»…æ˜¯åŒºåˆ†ç”¨ã€‚
+//å¯ä»¥ç†è§£ä¸ºå‰ç½®++åŽé¢æœ‰å‚æ•°äº†ï¼Œæ‰€ä»¥ä¸éœ€è¦å‚æ•°ã€‚
+//å‰ç½®++éœ€è¦è¿”å›žå¼•ç”¨ï¼Œå› ä¸ºé‡è½½è‡ªåŠ è¿ç®—ç¬¦åŽå¯ä»¥è¿”å›žå¯¹è±¡çš„å¼•ç”¨ï¼Œä»¥æ–¹ä¾¿åœ¨è¡¨è¾¾å¼ä¸­è¿žç»­ä½¿ç”¨ã€‚
+//è€ŒåŽç½®++è¿”å›žçš„ä¸æ˜¯å¼•ç”¨ï¼Œæ‰€ä»¥ä¸èƒ½è¿›è¡Œè¿žç»­ä½¿ç”¨ã€‚
 
 
 
-//1¡¢¶¨ÒåÒ»¸ö¸´ÊýÀà£¬ÊµÏÖÔËËã·ûÇ°ÖÃ¡°++¡±ÓëºóÖÃ¡°++¡±µÄÖØÔØ¡£
+//1ã€å®šä¹‰ä¸€ä¸ªå¤æ•°ç±»ï¼Œå®žçŽ°è¿ç®—ç¬¦å‰ç½®â€œ++â€ä¸ŽåŽç½®â€œ++â€çš„é‡è½½ã€‚
 #include <iostream>
 using namespace std;
 class plural {
@@ -19,10 +21,10 @@ class plural {
 public:
 	plural() = default;
 	plural(double x, double y) :a(x), b(y) {}
-	plural(plural &m) { a = m.a; b = m.b; }//¸´ÖÆ¹¹Ôìº¯Êý
-	plural(double x) { a = x; b = x; }//ÀàÐÍ×ª»»¹¹Ôìº¯Êý
-	plural& operator ++();//Ç°ÖÃ++
-	plural operator ++(int);//ºóÖÃ++
+	plural(plural &m) { a = m.a; b = m.b; }//å¤åˆ¶æž„é€ å‡½æ•°
+	plural(double x) { a = x; b = x; }//ç±»åž‹è½¬æ¢æž„é€ å‡½æ•°
+	plural& operator ++();//å‰ç½®++
+	plural operator ++(int);//åŽç½®++
 	friend ostream& operator <<(ostream& os,plural &A) {
 		os << A.a << "+" << A.b << "i" << endl;
 		return os;
@@ -56,23 +58,23 @@ int main()
 	plural m(1, 2);
 	for (int i = 0; i < 2; i++)
 		m++;
-	m.dis();//´òÓ¡½á¹ûÎª3+4i
+	m.dis();//æ‰“å°ç»“æžœä¸º3+4i
 	for (int i = 0; i < 2; i++)
 		++m;
-	m.dis();//´òÓ¡½á¹ûÎª5+6i
+	m.dis();//æ‰“å°ç»“æžœä¸º5+6i
 	for (int i = 0; i < 2; i++)
 		m++;
-	m.dis();//´òÓ¡½á¹ûÎª7+8i
-	(++m) = 2;//×óÖµ·µ»ØµÄÈÔÊÇm±¾Éí£¬È»ºóÖ´ÐÐ¸³Öµ²Ù×÷
+	m.dis();//æ‰“å°ç»“æžœä¸º7+8i
+	(++m) = 2;//å·¦å€¼è¿”å›žçš„ä»æ˜¯mæœ¬èº«ï¼Œç„¶åŽæ‰§è¡Œèµ‹å€¼æ“ä½œ
 	m.dis();
-	(m++) = 2;//·µ»ØÖµ²»ÊÇm£¬ÊÇÒ»¸öÁÙÊ±¶ÔÏó
+	(m++) = 2;//è¿”å›žå€¼ä¸æ˜¯mï¼Œæ˜¯ä¸€ä¸ªä¸´æ—¶å¯¹è±¡
 	m.dis();
 	cout << m << endl;
 	return 0;
 }
 
-//2¡¢¶¨ÒåÒ»¸ö×Ö·û´®ÀàString£¬ÓÃÀ´´æ·Å²»¶¨³¤µÄ×Ö·û´®£¬
-//ÖØÔØÔËËã·û"=="¡¢"<"ºÍ">"£¬ÓÃÓÚÁ½¸ö×Ö·û´®µÄµÈÓÚ¡¢Ð¡ÓÚºÍ´óÓÚµÄ±È½ÏÔËËã¡£
+//2ã€å®šä¹‰ä¸€ä¸ªå­—ç¬¦ä¸²ç±»Stringï¼Œç”¨æ¥å­˜æ”¾ä¸å®šé•¿çš„å­—ç¬¦ä¸²ï¼Œ
+//é‡è½½è¿ç®—ç¬¦"=="ã€"<"å’Œ">"ï¼Œç”¨äºŽä¸¤ä¸ªå­—ç¬¦ä¸²çš„ç­‰äºŽã€å°äºŽå’Œå¤§äºŽçš„æ¯”è¾ƒè¿ç®—ã€‚
 //#include <iostream>
 //#include <cstring>
 //using namespace std;
@@ -86,7 +88,7 @@ int main()
 //	String(char *st) {
 //		s = st;
 //	}
-//	String& operator =(const char *c) {//×¢ÒâÉî¿½±´ºÍÇ³¿½±´µÄÇø±ð,´Ë´¦ÎªÉî¿½±´
+//	String& operator =(const char *c) {//æ³¨æ„æ·±æ‹·è´å’Œæµ…æ‹·è´çš„åŒºåˆ«,æ­¤å¤„ä¸ºæ·±æ‹·è´
 //		if (this->s == c) {
 //			return *this;
 //		}
@@ -140,22 +142,22 @@ int main()
 //	return 0;
 //}
 
-//ÀàÐÍ×ª»»ÔËËã·ûµÄÖØÔØ
-//1£ºÐ´º¯ÊýÊ±²»Ð´·µ»ØÖµ,·µ»ØÖµÊµ¼ÊÉÏÊÇÖØÔØµÄÀàÐÍ
-//2£ºÐèÒªÊ±Ö÷¶¯°Ñ¶ÔÏó×ª»»Îª·µ»ØÖµÀàÐÍ
+//ç±»åž‹è½¬æ¢è¿ç®—ç¬¦çš„é‡è½½
+//1ï¼šå†™å‡½æ•°æ—¶ä¸å†™è¿”å›žå€¼,è¿”å›žå€¼å®žé™…ä¸Šæ˜¯é‡è½½çš„ç±»åž‹
+//2ï¼šéœ€è¦æ—¶ä¸»åŠ¨æŠŠå¯¹è±¡è½¬æ¢ä¸ºè¿”å›žå€¼ç±»åž‹
 //#include <iostream>
 //using namespace std;
 //class Complex {
 //	double real, imag;
 //public:
 //	Complex(double r = 0, double i = 0) :real(r), imag(i) {};
-//	operator double() { return real; }//ÖØÔØÀàÐÍ×ª»»ÔËËã·û
+//	operator double() { return real; }//é‡è½½ç±»åž‹è½¬æ¢è¿ç®—ç¬¦
 //};
 //int main()
 //{
 //	Complex c(1.2, 3.4);
 //	cout << (double)c << endl;
-//	double n = 2 + c;//ÀàÐÍ×ª»»ÔËËã·û¡¢ÀàÐÍ×ª»»¹¹Ôìº¯Êý¾ù¿ÉÊ¹ÕâÌõÓï¾ä³É¹¦±àÒë£¬´Ë´¦Ê¹ÓÃÁËÀàÐÍ×ª»»ÔËËã·û
+//	double n = 2 + c;//ç±»åž‹è½¬æ¢è¿ç®—ç¬¦ã€ç±»åž‹è½¬æ¢æž„é€ å‡½æ•°å‡å¯ä½¿è¿™æ¡è¯­å¥æˆåŠŸç¼–è¯‘ï¼Œæ­¤å¤„ä½¿ç”¨äº†ç±»åž‹è½¬æ¢è¿ç®—ç¬¦
 //	cout << n;
 //	return 0;
 //}
