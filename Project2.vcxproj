@@ -127,7 +127,7 @@
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="My practice17—template.cpp" />
+    <ClCompile Include="My practice26Huffman.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
